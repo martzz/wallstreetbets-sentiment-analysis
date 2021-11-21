@@ -33,7 +33,7 @@ class WallStreetBets:
         self.scores = scores
 
 
-def analyze(clientid, clientsecret, usernme, passwrd):
+def analyze():
     # set the program parameters
     limit = 500      # define the limit
     upvotes = 2     # define # of upvotes, comment is considered if upvotes exceed this #
@@ -43,7 +43,7 @@ def analyze(clientid, clientsecret, usernme, passwrd):
     posts, count, c_analyzed, tickers, titles, a_comments = 0, 0, 0, {}, [], {}
 
     start_time = time.time()
-    reddit = reddit_login("Comment Extraction", clientid, clientsecret, usernme, passwrd)
+    reddit = reddit_login()
     subreddit = configure_reddit_subreddit(reddit)
     hot_python = subreddit.hot()    # sorting posts by hot
     extract_comments_symbols(hot_python, post_flairs, titles, posts, limit, upvotes, tickers, a_comments, count, c_analyzed)
@@ -60,12 +60,8 @@ def analyze(clientid, clientsecret, usernme, passwrd):
     print_sentiment_analysis(WSB)
     return WSB
 
-def reddit_login(user, clientid, clientsecret, usernme, passwrd):
-    return praw.Reddit(user_agent=user,
-        client_id=clientid,
-        client_secret=clientsecret,
-        username=usernme,
-        password=passwrd)
+def reddit_login():
+    return praw.Reddit("reddit_bot", user_agent="Scrape Ticker")
 
 def configure_reddit_subreddit(reddit):
     return reddit.subreddit('wallstreetbets')
